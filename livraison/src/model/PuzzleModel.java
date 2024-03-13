@@ -36,18 +36,27 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         }
     }
 
+    // accesseur pour le nombre de lignes
+    public int getRows()
+    {
+        return n;
+    }
+
+    // accesseur pour le nombre de colonnes
+    public int getCols()
+    {
+        return m;
+    }
+
     // Accesseur de la grille
     public Piece[][] getGrid()
     {
         return this.grid;
     }
 
-    //Vérifie si la cellule est adjacente à la case vide
-    public boolean cellIsNextToEmpty(int id)
+    //Vérifie si la cellule d'identifiant (i,j) est adjacente à la case vide
+    public boolean cellIsNextToEmpty(int i, int j)
     {
-        int i = id / this.m;
-        int j = id % this.m;
-
         if(i-1 >= 0)
         {
             if(grid[i-1][j].isEmpty()) return true;
@@ -79,5 +88,21 @@ public class PuzzleModel extends puzzle.util.AbstractModel
             }
         }
         return null;
+    }
+
+    //échange la cellule d'identifiant id avec la case vide si elle y est adjacente
+    public void switchCell(int id)
+    {
+        int cell_i = id / this.m;
+        int cell_j = id % this.m;
+        if(cellIsNextToEmpty(cell_i, cell_j))
+        {
+            int empty_i = this.getEmptyPos()[0];
+            int empty_j = this.getEmptyPos()[1];
+            Piece temp = grid[cell_i][cell_j];
+            grid[cell_i][cell_j] = grid[empty_i][empty_j];
+            grid[empty_i][empty_j] = temp;
+            this.fireChangement();
+        }
     }
 }

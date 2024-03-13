@@ -6,7 +6,7 @@ package puzzle.util;
 
 public abstract class AbstractModel implements Model
 {
-    private java.util.List<Listener> listeners;
+    private java.util.List<Listener> listeners = new java.util.ArrayList<>();
     
     @Override
     public void addListener(Listener e)
