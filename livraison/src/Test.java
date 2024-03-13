@@ -8,6 +8,8 @@ public class Test
     {
         PuzzleModel p =new PuzzleModel(4,4);
         Matrix.show(p.getGrid());
+        System.out.println(p.cellIsNextToEmpty(4));
+        System.out.println(p.getEmptyPos()[0] + ", " + p.getEmptyPos()[1]);
         System.out.println("all tests passed successfully !");
     }
 }

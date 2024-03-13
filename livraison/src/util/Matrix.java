@@ -1,7 +1,11 @@
 package puzzle.util;
 
+/**
+ * Classe de traitement de matrices
+ **/
 public class Matrix
-{
+{   
+    // Méthode qui affiche une matrice
     public static void show(Object[][] m)
     {
         int row = m.length;

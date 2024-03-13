@@ -8,6 +8,7 @@ public class Piece
     {
         this.value = value;
     }
+
     public int getValue()
     {
         return this.value;
@@ -15,6 +16,11 @@ public class Piece
 
     public String toString()
     {
-        return "" + value;
+        return (this.value != -1) ? ""+value : " ";
+    }
+
+    public boolean isEmpty()
+    {
+        return this.value == -1;
     }
 }
