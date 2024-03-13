@@ -12,4 +12,9 @@ public class Piece
     {
         return this.value;
     }
+
+    public String toString()
+    {
+        return "" + value;
+    }
 }
