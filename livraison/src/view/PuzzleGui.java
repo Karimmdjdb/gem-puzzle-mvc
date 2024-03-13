@@ -10,6 +10,7 @@ public class PuzzleGui extends javax.swing.JFrame
     public PuzzleGui(PuzzleModel model)
     {
         super("Puzzle");
+        setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         panel = new PuzzleView(model);
         add(panel);
         pack();

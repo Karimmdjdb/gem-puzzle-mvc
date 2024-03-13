@@ -19,6 +19,11 @@ public class Piece
         return (this.value != -1) ? ""+value : " ";
     }
 
+    public String toString2()
+    {
+        return (this.value != -1) ? ""+value : "";
+    }
+
     public boolean isEmpty()
     {
         return this.value == -1;
