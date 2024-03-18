@@ -61,11 +61,11 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         {
             if(grid[i-1][j].isEmpty()) return true;
         }
-        if(j+1 <= this.m)
+        if(j+1 < this.m)
         {
             if(grid[i][j+1].isEmpty()) return true;
         }
-        if(i+1 <= this.n)
+        if(i+1 < this.n)
         {
             if(grid[i+1][j].isEmpty()) return true;
         }

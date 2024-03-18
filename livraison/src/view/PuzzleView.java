@@ -1,5 +1,6 @@
 package puzzle.view;
 
+import javax.swing.JPanel;
 import puzzle.model.PuzzleModel;
 import java.awt.Dimension;
 import java.awt.GridLayout;
@@ -9,8 +10,9 @@ import java.awt.Color;
 import java.awt.BasicStroke;
 import java.awt.RenderingHints;
 import javax.swing.JButton;
+import puzzle.util.Matrix;
 
-public class PuzzleView extends javax.swing.JPanel implements puzzle.util.Listener, java.awt.event.ActionListener
+public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt.event.ActionListener
 {
     // Constantes
     private int CELL_SIZE = 100;
@@ -23,10 +25,28 @@ public class PuzzleView extends javax.swing.JPanel implements puzzle.util.Listen
 
     public PuzzleView(PuzzleModel p)
     {
+        super(true);
+        System.out.println(this);
+        System.out.println("parent: " + getParent());
         model = p;
+        model.addListener(this);
         setPreferredSize(new Dimension (model.getCols()*CELL_SIZE, model.getRows()*CELL_SIZE));
         setLayout(new GridLayout(model.getRows(), model.getCols()));
         setBackground(COLOR3);
+        JButton btn;
+        for(int i = 0; i < model.getRows(); i++)
+        {
+            for(int j = 0; j < model.getCols(); j++)
+            {
+                btn = new JButton(model.getGrid()[i][j].toString2());
+                btn.setContentAreaFilled(false);
+                btn.setBorderPainted(false);
+                btn.addActionListener(this);
+                btn.setFocusable(false);
+                btn.putClientProperty("id", i*model.getCols()+j);
+                add(btn);
+            }
+        }
 
     }
 
@@ -39,39 +59,6 @@ public class PuzzleView extends javax.swing.JPanel implements puzzle.util.Listen
         {
             for(int j=0; j<model.getCols(); j++)
             {
-                JButton btn;
-                if(i==x && j==y)
-                {
-                    btn = new JButton(model.getGrid()[i][j].toString2()){
-                    public void paintComponent(Graphics g)
-                    {
-                        Graphics2D g2d = (Graphics2D)g;
-                        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                        g2d.setColor(COLOR1);
-                        g2d.fillOval(0,0,CELL_SIZE,CELL_SIZE);
-                        super.paintComponent(g);
-                    }
-                };
-                }
-                else
-                {
-                    btn = new JButton(model.getGrid()[i][j].toString2()){
-                    public void paintComponent(Graphics g)
-                    {
-                        Graphics2D g2d = (Graphics2D)g;
-                        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-                        g2d.setColor(COLOR2);
-                        g2d.fillOval(0,0,CELL_SIZE,CELL_SIZE);
-                        super.paintComponent(g);
-                    }
-                };
-                }
-                
-                btn.setContentAreaFilled(false);
-                btn.setBorderPainted(false);
-                btn.addActionListener(this);
-                btn.setFocusable(false);
-                add(btn);
             }
         }
     }
@@ -79,12 +66,14 @@ public class PuzzleView extends javax.swing.JPanel implements puzzle.util.Listen
     @Override
     public void modelUpdated(Object source)
     {
+        System.out.println("updated");
         this.repaint();
     }
 
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e)
     {
-        System.out.println("test");
+        System.out.println(((JButton)e.getSource()).getClientProperty("id"));
+        model.switchCell((int)((JButton)e.getSource()).getClientProperty("id"));
     }
 }
