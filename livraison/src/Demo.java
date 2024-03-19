@@ -7,7 +7,7 @@ public class Demo
 {
     public static void main(String[] args)
     {
-        PuzzleModel p = new PuzzleModel(5,4);
+        PuzzleModel p = new PuzzleModel(5,5);
         javax.swing.JFrame window = new PuzzleGui(p);
     }
 }

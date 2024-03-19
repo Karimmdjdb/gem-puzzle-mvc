@@ -21,7 +21,7 @@ public class Piece
 
     public String toString2()
     {
-        return (this.value != -1) ? ""+value : "";
+        return (this.value != -1) ? "" + (value+1) : "";
     }
 
     public boolean isEmpty()

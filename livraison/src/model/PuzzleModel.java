@@ -12,6 +12,7 @@ public class PuzzleModel extends puzzle.util.AbstractModel
     // Attributs
     private int n,m;
     private Piece[][] grid;
+    private int coup = 0;
 
     // Constructeur
     public PuzzleModel(int n, int m)
@@ -104,5 +105,15 @@ public class PuzzleModel extends puzzle.util.AbstractModel
             grid[empty_i][empty_j] = temp;
             this.fireChangement();
         }
+    }
+
+    public void incrementeCoup()
+    {
+        coup++;
+    }
+
+    public int getCoup()
+    {
+        return coup;
     }
 }
