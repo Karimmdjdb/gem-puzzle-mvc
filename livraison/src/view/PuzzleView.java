@@ -15,6 +15,10 @@ import javax.swing.JLabel;
 import java.awt.Component;
 import puzzle.util.Matrix;
 
+/**
+  * classe qui gére l'affichage et le contrôle d'un modéle de jeu du Taquin (respectant le pattern MVC). 
+  * @author Melissa, Karim 
+  */
 public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt.event.ActionListener
 {
     // Constantes
@@ -22,12 +26,17 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
     public final static Color COLOR1 = new Color(9, 9, 51);
     public final static Color COLOR2 = new Color(107, 107, 160);
     public final static Color COLOR3 = new Color(169, 169, 202);
+    public final static Color COLOR4 = new Color(98, 88, 152);
 
 
     private PuzzleModel model;
     private JPanel panel;
     private JLabel label;
 
+    /**
+      * constructeur de la classe
+      * @param p le modéle qu'affichera la classe PuzzleView. 
+      */
     public PuzzleView(PuzzleModel p)
     {
         super(true);
@@ -35,7 +44,7 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
         model = p;
         model.addListener(this);
         setBackground(COLOR3);
-        setPreferredSize(new Dimension (model.getCols()*CELL_SIZE, model.getRows()*CELL_SIZE+40));
+        setPreferredSize(new Dimension (model.getCols()*CELL_SIZE, model.getRows()*CELL_SIZE + 40));
 
         panel = new JPanel(new GridLayout(model.getRows(), model.getCols()));
         panel.setBackground(null);
@@ -48,15 +57,7 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
 
         modelUpdated(null);
     }
-
-    @Override
-    public void paintComponent(Graphics g)
-    {
-        System.out.println("euh");
-        super.paintComponent(g);
-        validate();
-    }
-
+    
     @Override
     public void modelUpdated(Object source)
     {
@@ -67,19 +68,21 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
         {
             for(int j = 0; j < model.getCols(); j++)
             {
-                btn = new PuzzleButton(model.getGrid()[i][j], CELL_SIZE, this, i*model.getCols()+j);
-                //btn = new JButton(model.getGrid()[i][j].toString2());
+                btn = new PuzzleButton(model.getGrid()[i][j], CELL_SIZE, this, i*model.getCols()+j, model.cellIsNextToEmpty(i, j));
                 panel.add(btn);
             }
         }
+        label.setText("Coups : " + model.getCoup());
         this.revalidate();
         this.repaint();
     }
 
+    /**
+      * {@inheritDoc}
+      */
     @Override
     public void actionPerformed(java.awt.event.ActionEvent e)
     {
-        System.out.println("click !");
         model.switchCell(((PuzzleButton)e.getSource()).getId());
     }
 }
