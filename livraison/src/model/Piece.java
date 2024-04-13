@@ -1,31 +1,26 @@
 package puzzle.model;
 
-public class Piece
+public class Piece<T>
 {
-    private int value;
+    private T value;
 
-    public Piece(int value)
+    public Piece(T value)
     {
         this.value = value;
     }
 
-    public int getValue()
+    public T getValue()
     {
         return this.value;
     }
 
     public String toString()
     {
-        return (this.value != -1) ? ""+value : " ";
-    }
-
-    public String toString2()
-    {
-        return (this.value != -1) ? "" + (value+1) : "";
+        return (this.value != null) ? (" " + value.toString()) : "X";
     }
 
     public boolean isEmpty()
     {
-        return this.value == -1;
+        return this.value == null;
     }
 }

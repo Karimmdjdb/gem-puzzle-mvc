@@ -6,10 +6,11 @@ import java.awt.RenderingHints;
 
 public class PuzzleButton extends javax.swing.JButton
 {
-    private int size, value, id;
-    public PuzzleButton(puzzle.model.Piece piece, int size, java.awt.event.ActionListener listener, int id)
+    private int size, id;
+    private Integer value;
+    public PuzzleButton(puzzle.model.Piece<Integer> piece, int size, java.awt.event.ActionListener listener, int id)
     {
-        super(piece.toString2());
+        super(piece.toString());
         this.size = size;
         this.value = piece.getValue();
         this.id = id;
@@ -25,7 +26,7 @@ public class PuzzleButton extends javax.swing.JButton
     {
         Graphics2D g2d = (Graphics2D)g;
         g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        if(this.value == -1) g2d.setColor(PuzzleView.COLOR1);
+        if(this.value == null) g2d.setColor(PuzzleView.COLOR1);
         else g2d.setColor(PuzzleView.COLOR2);
         g2d.fillOval(0,0, size, size);
         g2d.setColor(PuzzleView.COLOR1);
