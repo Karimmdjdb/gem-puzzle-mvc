@@ -126,7 +126,25 @@ public class PuzzleModel extends puzzle.util.AbstractModel
             Piece temp = grid[cell_i][cell_j];
             grid[cell_i][cell_j] = grid[empty_i][empty_j];
             grid[empty_i][empty_j] = temp;
+            coup++;
             this.fireChangement();
+            
+            List<Integer> values = new ArrayList<>();
+            for(int i=0; i<n; i++)
+            {
+                for(int j=0; j<m; j++)
+                {
+                    values.add(grid[i][j].getValue());
+                }
+            }
+            boolean ok = values.get(n*m-1) == -1;
+            values.remove(n*m-1);
+            List<Integer> valuesUnsorted = new ArrayList<>(values);
+            Collections.sort(values);
+            if(ok && values == valuesUnsorted)
+            {
+                System.out.println("Gagné !");
+            }
         }
     }
 
