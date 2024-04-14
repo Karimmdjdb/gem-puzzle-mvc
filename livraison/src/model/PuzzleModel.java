@@ -45,7 +45,7 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         {
             for(int b = -1; b < 2; b++)
             {
-                if(a == b) continue;
+                if((a == 0 & b == 0) || (a != 0 && b != 0)) continue;
                 else
                 {
                     if(i+a >= 0 && i+a < n && j+b >= 0 && j+b < m)

@@ -61,6 +61,8 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
                 panel.add(btn);
             }
         }
+        PuzzleGui parent = (PuzzleGui)SwingUtilities.getWindowAncestor(this);
+        if(parent != null) parent.changeCoups(model.getCoup());
         this.revalidate();
         this.repaint();
     }

@@ -12,8 +12,12 @@ import puzzle.model.PuzzleModel;
   */
 public class PuzzleGui extends javax.swing.JFrame implements ActionListener
 {
-    public static int[] diff = new int[]{3,3};
+    public final static int LVL_EASY = 0, LVL_MEDIUM = 1, LVL_HARD = 2, LVL_CUSTOM = 3;
+    public static int[] diff = new int[]{3, 3, 5, 5, 10, 10, 0, 0};
+    private int level = LVL_EASY;
     private PuzzleView canvas;
+    private JCheckBoxMenuItem check1, check2, check3;
+    private JLabel coups;
 
 
 
@@ -27,7 +31,7 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
         setJMenuBar(buildMenuBar());
         
         //ajout du canvas
-        canvas = new PuzzleView(new PuzzleModel(diff[0],diff[1]));
+        canvas = new PuzzleView(newModel());
         add(canvas);
         pack();
         setVisible(true);
@@ -57,6 +61,7 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
     public void actionPerformed(ActionEvent e)
     {
       String item = ((JMenuItem)e.getSource()).getText();
+      int newLevel = level;
       switch(item)
       {
         case "Chiffres":
@@ -68,26 +73,45 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
           break;
 
         case "Nouvelle partie":
-          canvas.changeModel(new PuzzleModel(diff[0],diff[1]));
+          canvas.changeModel(newModel());
           break;
         
         case "Facile":
-          diff[0] = 3;
-          diff[1] = 3;
+          newLevel = LVL_EASY;
+          check1.setState(true);
+          check2.setState(false);
+          check3.setState(false);
           break;
 
         case "Moyen":
-          diff[0] = 5;
-          diff[1] = 5;
+          newLevel = LVL_MEDIUM;
+          check1.setState(false);
+          check2.setState(true);
+          check3.setState(false);
           break;
 
         case "Difficile":
-          diff[0] = 10;
-          diff[1] = 10;
+          newLevel = LVL_HARD;
+          check1.setState(false);
+          check2.setState(false);
+          check3.setState(true);
+          break;
+        
+        case "Personnalisé":
+          new SelectionWindow(this);
+          check1.setState(false);
+          check2.setState(false);
+          check3.setState(false);
           break;
         
         default :
           break;
+      }
+
+      if(level != newLevel)
+      {
+        level = newLevel;
+        canvas.changeModel(newModel());
       }
 
       canvas.repaint();
@@ -117,17 +141,21 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
 
         JMenu menu2_1 = new JMenu("Difficulté");
 
-        JMenuItem item2_1_1 = new JMenuItem("Facile");
+        JCheckBoxMenuItem item2_1_1 = new JCheckBoxMenuItem("Facile");
         menu2_1.add(item2_1_1);
         item2_1_1.addActionListener(this);
+        check1 = item2_1_1;
+        check1.setState(true);
 
-        JMenuItem item2_1_2 = new JMenuItem("Moyen");
+        JCheckBoxMenuItem item2_1_2 = new JCheckBoxMenuItem("Moyen");
         menu2_1.add(item2_1_2);
         item2_1_2.addActionListener(this);
+        check2 = item2_1_2;
 
-        JMenuItem item2_1_3 = new JMenuItem("Difficile");
+        JCheckBoxMenuItem item2_1_3 = new JCheckBoxMenuItem("Difficile");
         menu2_1.add(item2_1_3);
         item2_1_3.addActionListener(this);
+        check3 = item2_1_3;
 
         menu2_1.addSeparator();
 
@@ -140,6 +168,30 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
 
         menuBar.add(menu2);
 
+        coups = new JLabel();
+        menuBar.add(coups);
+        menuBar.add(new JLabel("                                              nombre de coups : 0"));
+
         return menuBar;
+    }
+
+    public PuzzleModel newModel()
+    {
+      return new PuzzleModel(diff[2*level], diff[2*level+1]);
+    }
+
+    public void changeModel()
+    {
+      canvas.changeModel(newModel());
+    }
+
+    public void changeLevel(int newLevel)
+    {
+      this.level = newLevel;
+    }
+
+    public void changeCoups(int nombre)
+    {
+      coups.setText("                                              nombre de coups : " + nombre);
     }
 }
