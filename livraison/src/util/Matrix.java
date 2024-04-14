@@ -1,11 +1,15 @@
 package puzzle.util;
 
 /**
- * Classe de traitement de matrices
- **/
+ * Classe utilitaire pour les opérations sur les matrices.
+ */
 public class Matrix
-{   
-    // Méthode qui affiche une matrice
+{  
+     /**
+     * Affiche une matrice à deux dimensions.
+     *
+     * @param m La matrice à afficher.
+     */
     public static void show(Object[][] m)
     {
         int row = m.length;

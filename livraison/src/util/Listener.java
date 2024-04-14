@@ -1,10 +1,14 @@
 package puzzle.util;
 
-/**
- * Interface qui déclare la méthode d'un écouteur de Modéle
- **/
+ /**
+ * Interface pour les écouteurs du modèle.
+ */
 public interface Listener
 {
-    // Méthode qui sera appelée lors de la mise à jour du Modéle
+    /**
+     * Méthode appelée lorsqu'un modèle est mis à jour.
+     *
+     * @param source L'objet source de la mise à jour.
+     */
     public void modelUpdated(Object source);
 }

@@ -1,14 +1,21 @@
 package puzzle.util;
 
 /**
- * Interface qui déclare les deux méthodes d'un modéle écoutable
- **/
-
+ * Interface décrivant un modèle pour mon jeu de taquin.
+ */
 public interface Model
-{
-    // méthode pour ajouter un écouteur
+{   
+     /**
+     * Ajoute un écouteur à ce modèle.
+     *
+     * @param e L'écouteur à ajouter.
+     */
     public void addListener(Listener e);
 
-    // méthode pour supprimer unn écouteur
+     /**
+     * Supprime un écouteur de ce modèle.
+     *
+     * @param e L'écouteur à supprimer.
+     */
     public void removeListener(Listener e);
 }

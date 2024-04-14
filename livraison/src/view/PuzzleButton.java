@@ -6,11 +6,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 
-
 /**
-  * un bouton personnalisé
-  * @author Karim 
-  */
+ * Classe représentant un bouton dans l'interface graphique du puzzle.
+ */
+
 public class PuzzleButton extends javax.swing.JButton implements java.awt.event.MouseListener
 {
     public static final int MODE_CHIFFRE = 0, MODE_IMAGE = 1;
@@ -35,14 +34,18 @@ public class PuzzleButton extends javax.swing.JButton implements java.awt.event.
         }
     }
 
+    
     /**
-      * constructeur de la classe PuzzleButton.
-      * @param piece la piéce de puzzle dont la valeur sera affichée par la bouton.
-      * @param size diamétre de l'affichage du bouton.
-      * @param listener écouteur d'action qui définir le comportement lors du clic sur le bouton.
-      * @param id identificateur du bouton.
-      * @param hover booléen qui définit si le bouton doit changer de couleur au survol.
-      */
+     * Initialise les propriétés du bouton de puzzle.
+     *
+     * @param piece    La pièce associée au bouton.
+     * @param width    La largeur du bouton.
+     * @param height   La hauteur du bouton.
+     * @param listener L'écouteur d'événements pour le bouton.
+     * @param id       L'identifiant du bouton.
+     * @param hover    Indique si le bouton peut être survolé par la souris.
+     * @param cols     Le nombre de colonnes dans le puzzle.
+     */
     public PuzzleButton(puzzle.model.Piece<Integer> piece, int width, int height, java.awt.event.ActionListener listener, int id, boolean hover, int cols)
     {
         super(piece.toString());
@@ -64,6 +67,10 @@ public class PuzzleButton extends javax.swing.JButton implements java.awt.event.
         addMouseListener(this);
     }
 
+
+     /**
+     * {@inheritDoc}
+     */
     @Override
     public void paintComponent(Graphics g)
     {
@@ -99,55 +106,71 @@ public class PuzzleButton extends javax.swing.JButton implements java.awt.event.
         getParent().repaint();
     }
 
+    
     /**
-      * méthode qui permet de récpérer l'identifiant du bouton.
-      * @return l'identificateur du bouton. 
-      */
+     * Récupère l'identifiant du bouton.
+     *
+     * @return L'identifiant du bouton.
+     */
     public int getId()
     {
         return this.id;
     }
 
+    
     /**
-      * méthode qui permet de changer la valeur de isHovered
-      * lors du survol du bouton.
-      * @param isIt la valeur que prendra isHovered. 
-      */
+     * Active ou désactive l'état de survol du bouton.
+     *
+     * @param isIt true pour activer le survol, false pour le désactiver.
+     */
     public void turnHovered(boolean isIt)
     {
         hovered = isIt;
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseClicked(java.awt.event.MouseEvent e)
     {
 
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseEntered(java.awt.event.MouseEvent e)
     {
         ((PuzzleButton)e.getSource()).hovered = true;
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void mouseExited(java.awt.event.MouseEvent e)
     {
         ((PuzzleButton)e.getSource()).hovered = false;
     }
 
-    /**
-      * {@inheritDoc}
-      */
+   
+   /**
+     * {@inheritDoc}
+     */
     @Override
     public void mousePressed(java.awt.event.MouseEvent e)
     {
         
     }
 
+    
     /**
-      * {@inheritDoc}
-      */
+     * {@inheritDoc}
+     */
     @Override
     public void mouseReleased(java.awt.event.MouseEvent e)
     {

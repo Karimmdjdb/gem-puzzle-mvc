@@ -7,30 +7,34 @@ import puzzle.model.PuzzleModel;
 
 
 /**
-  * classe qui gére l'affichage d'une fenêtre affichant un puzzle de Taquin. 
-  * @author Karim 
-  */
+ * Classe représentant l'interface graphique du jeu de puzzle.
+ */
 public class PuzzleGui extends javax.swing.JFrame implements ActionListener
 {
     public final static int LVL_EASY = 0, LVL_MEDIUM = 1, LVL_HARD = 2, LVL_CUSTOM = 3;
+
+    //Tableau contenant les paramètres de difficulté pour chaque niveau.
     public static int[] diff = new int[]{3, 3, 5, 5, 10, 10, 0, 0};
+
     private int level = LVL_EASY;
     private PuzzleView canvas;
     private JCheckBoxMenuItem check1, check2, check3;
     private JLabel coups;
 
 
-
+    /**
+     * Constructeur par défaut de l'interface graphique du jeu de puzzle.
+     */
     public PuzzleGui()
     {
         super("Puzzle");
         setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         
-        //ajout de la barre de menus
+        
         setJMenuBar(buildMenuBar());
         
-        //ajout du canvas
+        
         canvas = new PuzzleView(newModel());
         add(canvas);
         pack();
@@ -38,26 +42,31 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
     }
 
 
-    /**
-      * constructeur de la classe PuzzleGui
-      * @param model le modéle géré par la classe PuzzleGui 
-      */
+     /**
+     * Constructeur de l'interface graphique du jeu de puzzle avec un modèle donné.
+     *
+     * @param model Le modèle de puzzle à utiliser.
+     */
     public PuzzleGui(PuzzleModel model)
     {
         super("Puzzle");
         setDefaultCloseOperation(javax.swing.JFrame.EXIT_ON_CLOSE);
         setResizable(false);
         
-        //ajout de la barre de menus
+        
         setJMenuBar(buildMenuBar());
         
-        //ajout du canvas
+        
         canvas = new PuzzleView(model);
         add(canvas);
         pack();
         setVisible(true);
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    @Override
     public void actionPerformed(ActionEvent e)
     {
       String item = ((JMenuItem)e.getSource()).getText();
@@ -117,6 +126,12 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
       canvas.repaint();
     }
 
+
+    /**
+     * Construit et retourne la barre de menu de l'interface graphique.
+     *
+     * @return La barre de menu construite.
+     */
     private JMenuBar buildMenuBar()
     {
         JMenuBar menuBar = new JMenuBar();
@@ -175,21 +190,43 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
         return menuBar;
     }
 
+
+    /**
+     * Crée un nouveau modèle de puzzle en fonction du niveau de difficulté actuel.
+     *
+     * @return Un nouveau modèle de puzzle.
+     */
     public PuzzleModel newModel()
     {
       return new PuzzleModel(diff[2*level], diff[2*level+1]);
     }
 
+
+    /**
+     * Change le modèle de puzzle dans l'interface graphique.
+     */
     public void changeModel()
     {
       canvas.changeModel(newModel());
     }
 
+
+    /**
+     * Change le niveau de difficulté.
+     *
+     * @param newLevel Le nouveau niveau de difficulté.
+     */
     public void changeLevel(int newLevel)
     {
       this.level = newLevel;
     }
 
+
+    /**
+     * Met à jour le nombre de coups affiché dans l'interface graphique.
+     *
+     * @param nombre Le nombre de coups à afficher.
+     */
     public void changeCoups(int nombre)
     {
       coups.setText("                                              nombre de coups : " + nombre);

@@ -10,13 +10,13 @@ import java.io.IOException;
 import javax.imageio.ImageIO;
 import puzzle.util.Matrix;
 
+
 /**
-  * classe qui gére l'affichage et le contrôle d'un modéle de jeu du Taquin (respectant le pattern MVC). 
-  * @author Melissa, Karim 
-  */
+ * Classe représentant la vue du jeu de puzzle.
+ */
 public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt.event.ActionListener
 {
-    // Constantes
+    
     private final static int CANVAS_WIDTH = 500, CANVAS_HEIGHT = 500;
     public final static Color COLOR1 = new Color(9, 9, 51);
     public final static Color COLOR2 = new Color(107, 107, 160);
@@ -28,10 +28,12 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
     private JPanel panel;
     private JLabel label;
     private int cellWidth, cellHeight;
+    
     /**
-      * constructeur de la classe
-      * @param p le modéle qu'affichera la classe PuzzleView. 
-      */
+     * Constructeur de la vue du jeu de puzzle.
+     *
+     * @param p Le modèle de puzzle à afficher.
+     */
     public PuzzleView(PuzzleModel p)
     {
         super(true);
@@ -46,6 +48,9 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
         changeModel(p);
     }
     
+    /**
+      * {@inheritDoc}
+      */
     @Override
     public void modelUpdated(Object source)
     {
@@ -54,7 +59,7 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
         JButton btn;
         for(int i = 0; i < model.getRows(); i++)
         {
-            //System.out.println(i);
+            
             for(int j = 0; j < model.getCols(); j++)
             {
                 btn = new PuzzleButton(model.getGrid()[i][j], cellWidth, cellHeight, this, i*model.getCols()+j, model.cellIsNextToEmpty(i, j), model.getCols());
@@ -76,6 +81,11 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
         model.switchCell(((PuzzleButton)e.getSource()).getId());
     }
 
+    /**
+     * Change le modèle de puzzle affiché dans la vue.
+     *
+     * @param newModel Le nouveau modèle de puzzle à afficher.
+     */
     public void changeModel(PuzzleModel newModel)
     {
       this.model = newModel;

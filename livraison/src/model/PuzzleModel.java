@@ -4,20 +4,26 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Random;
 
-/**
- * Classe qui définit le Modéle d'un jeu puzzle à glissiéres
- **/
 
+/**
+ * Classe représentant le modèle pour un jeu de puzzle.
+ */
 public class PuzzleModel extends puzzle.util.AbstractModel
 {
-    // Attributs
+    
     private int n,m;
     private Piece<Integer>[][] grid;
     private int coup = 0;
 
-    // Constructeur
+    
+    /**
+     * Constructeur pour créer un modèle de puzzle avec une taille spécifiée.
+     *
+     * @param n Le nombre de lignes du puzzle.
+     * @param m Le nombre de colonnes du puzzle.
+     */
     public PuzzleModel(int n, int m)
-    {
+    {   // Implémentation du constructeur
         this.n = n;
         this.m = m;
         List<Integer> values = new ArrayList<>();
@@ -37,6 +43,10 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         }
     }
 
+
+     /**
+     * Effectue un mouvement aléatoire dans le puzzle.
+     */
     public void randomMove()
     {
         ArrayList<int[]> nextToEmpty = new ArrayList<>();
@@ -60,6 +70,10 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         switchCell(nextToEmpty.get(newPos)[0], nextToEmpty.get(newPos)[1]);
     }
 
+
+    /**
+     * Mélange le puzzle en effectuant plusieurs mouvements aléatoires.
+     */
     public void scramble()
     {
         for(int i = 0; i<1000; i++)
@@ -68,28 +82,50 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         }
     }
 
-    // accesseur pour le nombre de lignes
+    
+    /**
+     * Récupère le nombre de lignes dans le puzzle.
+     *
+     * @return Le nombre de lignes dans le puzzle.
+     */
     public int getRows()
     {
         return n;
     }
 
-    // accesseur pour le nombre de colonnes
+    
+    /**
+     * Récupère le nombre de colonnes dans le puzzle.
+     *
+     * @return Le nombre de colonnes dans le puzzle.
+     */
     public int getCols()
     {
         return m;
     }
 
-    // Accesseur de la grille
+
+      /**
+     * Récupère la grille du puzzle.
+     *
+     * @return La grille du puzzle.
+     */
     public Piece[][] getGrid()
     {
         return this.grid;
     }
 
-    //Vérifie si la cellule d'identifiant (i,j) est adjacente à la case vide
+
+    /**
+     * Vérifie si une cellule est adjacente à la cellule vide.
+     *
+     * @param i L'indice de la ligne de la cellule.
+     * @param j L'indice de la colonne de la cellule.
+     * @return true si la cellule est adjacente à la cellule vide, sinon false.
+     */
     public boolean cellIsNextToEmpty(int i, int j)
     {
-        //System.out.println(i + " " + j);
+        
         if(i-1 >= 0)
         {
             if(grid[i-1][j].isEmpty()) return true;
@@ -110,7 +146,12 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         return false;
     }
     
-    //retourne la position de la case vide
+    
+    /**
+     * Récupère les coordonnées de la cellule vide dans la grille.
+     *
+     * @return Un tableau d'entiers contenant les coordonnées de la cellule vide [i, j].
+     */
     public int[] getEmptyPos()
     {
         for(int i=0; i<n; i++)
@@ -123,7 +164,12 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         return null;
     }
 
-    //échange la cellule d'index id avec la case vide si elle y est adjacente
+    
+    /**
+     * Effectue un mouvement en échangeant la cellule vide avec une cellule adjacente.
+     *
+     * @param id L'indice de la cellule à déplacer dans un mouvement par clic.
+     */
     public void switchCell(int id)
     {
         int cell_i = id / this.m;
@@ -157,7 +203,13 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         }
     }
 
-    //échange la cellule de coordonnées cell_i et cell_j avec la case vide si elle y est adjacente
+    
+    /**
+     * Effectue un mouvement en échangeant la cellule vide avec une cellule adjacente.
+     *
+     * @param cell_i L'indice de la ligne de la cellule à déplacer.
+     * @param cell_j L'indice de la colonne de la cellule à déplacer.
+     */
     public void switchCell(int cell_i, int cell_j)
     {
         if(cellIsNextToEmpty(cell_i, cell_j))
@@ -171,11 +223,21 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         }
     }
 
+
+    /**
+     * Incrémente le nombre de coups joués dans le puzzle.
+     */
     public void incrementeCoup()
     {
         coup++;
     }
 
+
+    /**
+     * Récupère le nombre de coups joués dans le puzzle.
+     *
+     * @return Le nombre de coups joués.
+     */
     public int getCoup()
     {
         return coup;

@@ -4,10 +4,20 @@ import java.awt.*;
 import java.awt.event.*;
 import javax.swing.*;
 
+/**
+ * Fenêtre de sélection des dimensions personnalisées de la grille de jeu.
+ */
+
 public class SelectionWindow extends JFrame implements ActionListener
 {
     private JTextField rows, cols;
     private PuzzleGui parent;
+
+    /**
+     * Constructeur de la fenêtre de sélection des dimensions personnalisées.
+     *
+     * @param parent La fenêtre parente.
+     */
     public SelectionWindow(PuzzleGui parent)
     {
         super("Personnalisation");
@@ -51,6 +61,12 @@ public class SelectionWindow extends JFrame implements ActionListener
         setVisible(true);
     }
 
+
+    /**
+     * Crée une zone vide pour l'espacement.
+     *
+     * @return Le panneau avec une zone vide.
+     */
     private JPanel createEmptyArea()
     {
         JPanel empty = new JPanel();
@@ -58,6 +74,9 @@ public class SelectionWindow extends JFrame implements ActionListener
         return empty;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public void actionPerformed(ActionEvent e)
     {
