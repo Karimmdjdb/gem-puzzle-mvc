@@ -1,1 +1,0 @@
-alias runDemo='clear && javac -d livraison/bin $(find livraison/src -name "*.java") && java -cp livraison/bin puzzle.Demo' && alias runTest='clear && javac -d livraison/bin $(find livraison/src -name "*.java") && java -cp livraison/bin puzzle.Test'

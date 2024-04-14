@@ -179,7 +179,7 @@ public class PuzzleButton extends javax.swing.JButton implements java.awt.event.
       try
         {
           Random r = new Random();
-          backgroundImage = ImageIO.read(new FileInputStream("livraison/dist/assets/image" + (r.nextInt(NB_IMAGES) + 1) + ".jpg"));
+          backgroundImage = ImageIO.read(new FileInputStream("assets/image" + (r.nextInt(NB_IMAGES) + 1) + ".jpg"));
         }
         catch(IOException e)
         {
