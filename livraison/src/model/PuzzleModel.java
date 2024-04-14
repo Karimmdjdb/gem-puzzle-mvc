@@ -12,7 +12,7 @@ public class PuzzleModel extends puzzle.util.AbstractModel
 {
     // Attributs
     private int n,m;
-    private Piece[][] grid;
+    private Piece<Integer>[][] grid;
     private int coup = 0;
 
     // Constructeur
@@ -37,7 +37,7 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         }
     }
 
-    public void scramble()
+    public void randomMove()
     {
         ArrayList<int[]> nextToEmpty = new ArrayList<>();
         int i = getEmptyPos()[0],  j = getEmptyPos()[1];
@@ -58,6 +58,14 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         Random r = new Random();
         int newPos = r.nextInt(nextToEmpty.size());
         switchCell(nextToEmpty.get(newPos)[0], nextToEmpty.get(newPos)[1]);
+    }
+
+    public void scramble()
+    {
+        for(int i = 0; i<1000; i++)
+        {
+            randomMove();
+        }
     }
 
     // accesseur pour le nombre de lignes
@@ -81,6 +89,7 @@ public class PuzzleModel extends puzzle.util.AbstractModel
     //Vérifie si la cellule d'identifiant (i,j) est adjacente à la case vide
     public boolean cellIsNextToEmpty(int i, int j)
     {
+        //System.out.println(i + " " + j);
         if(i-1 >= 0)
         {
             if(grid[i-1][j].isEmpty()) return true;
@@ -129,7 +138,7 @@ public class PuzzleModel extends puzzle.util.AbstractModel
             coup++;
             this.fireChangement();
             
-            List<Integer> values = new ArrayList<>();
+            /*List<Integer> values = new ArrayList<>();
             for(int i=0; i<n; i++)
             {
                 for(int j=0; j<m; j++)
@@ -144,7 +153,7 @@ public class PuzzleModel extends puzzle.util.AbstractModel
             if(ok && values == valuesUnsorted)
             {
                 System.out.println("Gagné !");
-            }
+            }*/
         }
     }
 

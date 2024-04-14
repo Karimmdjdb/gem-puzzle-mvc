@@ -1,18 +1,13 @@
 package puzzle.view;
 
-import javax.swing.JPanel;
+import java.awt.*;
+import javax.swing.*;
 import puzzle.model.PuzzleModel;
-import java.awt.Dimension;
-import java.awt.GridLayout;
-import javax.swing.BoxLayout;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Color;
-import java.awt.BasicStroke;
-import java.awt.RenderingHints;
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import java.awt.Component;
+import puzzle.util.Matrix;
+import java.awt.image.BufferedImage;
+import java.io.FileInputStream;
+import java.io.IOException;
+import javax.imageio.ImageIO;
 import puzzle.util.Matrix;
 
 /**
@@ -22,7 +17,7 @@ import puzzle.util.Matrix;
 public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt.event.ActionListener
 {
     // Constantes
-    private final static int CELL_SIZE = 100;
+    private final static int CANVAS_WIDTH = 500, CANVAS_HEIGHT = 500;
     public final static Color COLOR1 = new Color(9, 9, 51);
     public final static Color COLOR2 = new Color(107, 107, 160);
     public final static Color COLOR3 = new Color(169, 169, 202);
@@ -32,7 +27,7 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
     private PuzzleModel model;
     private JPanel panel;
     private JLabel label;
-
+    private int cellWidth, cellHeight;
     /**
       * constructeur de la classe
       * @param p le modéle qu'affichera la classe PuzzleView. 
@@ -41,21 +36,14 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
     {
         super(true);
         setLayout(new BoxLayout(this, BoxLayout.Y_AXIS));
-        model = p;
-        model.addListener(this);
         setBackground(COLOR3);
-        setPreferredSize(new Dimension (model.getCols()*CELL_SIZE, model.getRows()*CELL_SIZE + 40));
 
-        panel = new JPanel(new GridLayout(model.getRows(), model.getCols()));
+        panel = new JPanel();
         panel.setBackground(null);
-        panel.setPreferredSize(new Dimension (model.getCols()*CELL_SIZE , model.getRows()*CELL_SIZE));
-
-        label = new JLabel("Coups : " + model.getCoup());
-
+        panel.setPreferredSize(new Dimension (CANVAS_WIDTH, CANVAS_HEIGHT));
         this.add(panel);
-        this.add(label);
 
-        modelUpdated(null);
+        changeModel(p);
     }
     
     @Override
@@ -66,13 +54,13 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
         JButton btn;
         for(int i = 0; i < model.getRows(); i++)
         {
+            //System.out.println(i);
             for(int j = 0; j < model.getCols(); j++)
             {
-                btn = new PuzzleButton(model.getGrid()[i][j], CELL_SIZE, this, i*model.getCols()+j, model.cellIsNextToEmpty(i, j));
+                btn = new PuzzleButton(model.getGrid()[i][j], cellWidth, cellHeight, this, i*model.getCols()+j, model.cellIsNextToEmpty(i, j), model.getCols());
                 panel.add(btn);
             }
         }
-        label.setText("Coups : " + model.getCoup());
         this.revalidate();
         this.repaint();
     }
@@ -84,5 +72,16 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
     public void actionPerformed(java.awt.event.ActionEvent e)
     {
         model.switchCell(((PuzzleButton)e.getSource()).getId());
+    }
+
+    public void changeModel(PuzzleModel newModel)
+    {
+      this.model = newModel;
+      this.model.scramble();
+      this.model.addListener(this);
+      cellWidth = CANVAS_WIDTH / model.getCols();
+      cellHeight = CANVAS_HEIGHT / model.getRows();
+      panel.setLayout(new GridLayout(model.getRows(), model.getCols()));
+      modelUpdated(null);
     }
 }
