@@ -102,6 +102,7 @@ public class SelectionWindow extends JFrame implements ActionListener
             PuzzleGui.diff[6] = lignes;
             PuzzleGui.diff[7] = colonnes;
             parent.changeLevel(PuzzleGui.LVL_CUSTOM);
+            PuzzleButton.randomImage();
             parent.changeModel();
             this.dispose();
         }

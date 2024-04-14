@@ -19,6 +19,6 @@ public class Test
         //PuzzleModel p =new PuzzleModel(4,3);
         //p.switchCell(10);
         //Matrix.show(p.getGrid());
-        SelectionWindow w = new SelectionWindow(null);
+        //SelectionWindow w = new SelectionWindow(null);
     }
 }

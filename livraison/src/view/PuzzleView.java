@@ -68,6 +68,7 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
         }
         PuzzleGui parent = (PuzzleGui)SwingUtilities.getWindowAncestor(this);
         if(parent != null) parent.changeCoups(model.getCoup());
+        if(parent != null && model.isGameOver()) new GameOverWindow(parent);
         this.revalidate();
         this.repaint();
     }
@@ -95,5 +96,15 @@ public class PuzzleView extends JPanel implements puzzle.util.Listener, java.awt
       cellHeight = CANVAS_HEIGHT / model.getRows();
       panel.setLayout(new GridLayout(model.getRows(), model.getCols()));
       modelUpdated(null);
+    }
+
+    /**
+     * recupére le modéle géré par la vue
+     *
+     * @return le modéle géré par la vue
+     */
+    public PuzzleModel getModel()
+    {
+      return model;
     }
 }

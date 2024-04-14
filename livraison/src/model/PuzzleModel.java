@@ -10,7 +10,7 @@ import java.util.Random;
  */
 public class PuzzleModel extends puzzle.util.AbstractModel
 {
-    
+    public final static int MOVE_UP = 0, MOVE_RIGHT = 1, MOVE_DOWN = 2, MOVE_LEFT = 3;
     private int n,m;
     private Piece<Integer>[][] grid;
     private int coup = 0;
@@ -22,6 +22,7 @@ public class PuzzleModel extends puzzle.util.AbstractModel
      * @param n Le nombre de lignes du puzzle.
      * @param m Le nombre de colonnes du puzzle.
      */
+    @SuppressWarnings("unchecked")
     public PuzzleModel(int n, int m)
     {   // Implémentation du constructeur
         this.n = n;
@@ -31,14 +32,13 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         {
             values.add(i);
         }
-
         grid =  new Piece[n][m];
         for(int i=0; i<n; i++)
         {
             for(int j=0; j<m; j++)
             {
-                if(m*i+j != n*m-1) grid[i][j] = new Piece(values.get(m*i+j));
-                else grid[i][j] = new Piece(null);
+                if(m*i+j != n*m-1) grid[i][j] = new Piece<Integer>(values.get(m*i+j));
+                else grid[i][j] = new Piece<Integer>(null);
             }
         }
     }
@@ -68,6 +68,46 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         Random r = new Random();
         int newPos = r.nextInt(nextToEmpty.size());
         switchCell(nextToEmpty.get(newPos)[0], nextToEmpty.get(newPos)[1]);
+    }
+
+    /**
+     * effectue un mouvement dans une direction.
+     *
+     * @param dir la direction dans laquelle sera effetuée le mouvement.
+     */
+    public void move(int dir)
+    {
+        int a = 0, b = 0;
+        switch(dir)
+        {
+            case MOVE_UP:
+                a = -1;
+                break;
+            
+            case MOVE_DOWN:
+                a = 1;
+                break;
+            
+            case MOVE_LEFT:
+                b = -1;
+                break;
+            
+            case MOVE_RIGHT:
+                b = 1;
+                break;
+            
+            default :
+                break;
+        }
+        
+        int i = getEmptyPos()[0],  j = getEmptyPos()[1];
+        i += a;
+        j += b;
+        if(i >= 0 && i < n && j >= 0 && j < m)
+        {
+            int id = i * this.m + j;
+            switchCell(id);
+        }
     }
 
 
@@ -110,7 +150,7 @@ public class PuzzleModel extends puzzle.util.AbstractModel
      *
      * @return La grille du puzzle.
      */
-    public Piece[][] getGrid()
+    public Piece<Integer>[][] getGrid()
     {
         return this.grid;
     }
@@ -178,28 +218,11 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         {
             int empty_i = this.getEmptyPos()[0];
             int empty_j = this.getEmptyPos()[1];
-            Piece temp = grid[cell_i][cell_j];
+            Piece<Integer> temp = grid[cell_i][cell_j];
             grid[cell_i][cell_j] = grid[empty_i][empty_j];
             grid[empty_i][empty_j] = temp;
             coup++;
             this.fireChangement();
-            
-            /*List<Integer> values = new ArrayList<>();
-            for(int i=0; i<n; i++)
-            {
-                for(int j=0; j<m; j++)
-                {
-                    values.add(grid[i][j].getValue());
-                }
-            }
-            boolean ok = values.get(n*m-1) == -1;
-            values.remove(n*m-1);
-            List<Integer> valuesUnsorted = new ArrayList<>(values);
-            Collections.sort(values);
-            if(ok && values == valuesUnsorted)
-            {
-                System.out.println("Gagné !");
-            }*/
         }
     }
 
@@ -216,7 +239,7 @@ public class PuzzleModel extends puzzle.util.AbstractModel
         {
             int empty_i = this.getEmptyPos()[0];
             int empty_j = this.getEmptyPos()[1];
-            Piece temp = grid[cell_i][cell_j];
+            Piece<Integer> temp = grid[cell_i][cell_j];
             grid[cell_i][cell_j] = grid[empty_i][empty_j];
             grid[empty_i][empty_j] = temp;
             this.fireChangement();
@@ -241,5 +264,28 @@ public class PuzzleModel extends puzzle.util.AbstractModel
     public int getCoup()
     {
         return coup;
+    }
+
+    /**
+     * Vérifie si le jeu est terminé
+     *
+     * @return true si les piéces sont correctement rangées, false sinon.
+     */
+    public boolean isGameOver()
+    {
+        for(int i=0; i<n; i++)
+        {
+            for(int j=0; j<m; j++)
+            {
+                if(!(i == n-1 && j == m - 1))
+                {
+                    if(grid[i][j].getValue() == null || grid[i][j].getValue() != (i * m + j + 1))
+                    {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

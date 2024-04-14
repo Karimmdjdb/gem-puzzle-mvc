@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import java.io.FileInputStream;
 import java.io.IOException;
 import javax.imageio.ImageIO;
-
+import java.util.Random;
 /**
  * Classe représentant un bouton dans l'interface graphique du puzzle.
  */
@@ -13,6 +13,7 @@ import javax.imageio.ImageIO;
 public class PuzzleButton extends javax.swing.JButton implements java.awt.event.MouseListener
 {
     public static final int MODE_CHIFFRE = 0, MODE_IMAGE = 1;
+    public static final int NB_IMAGES = 7;
     private int width, height, id;
     private Integer value;
     private boolean hovered = false, hoverable;
@@ -24,14 +25,7 @@ public class PuzzleButton extends javax.swing.JButton implements java.awt.event.
     {
       mode = MODE_CHIFFRE;
 
-      try
-        {
-          backgroundImage = ImageIO.read(new FileInputStream("livraison/src/assets/image.jpg"));
-        }
-        catch(IOException e)
-        {
-          System.out.println(e.getMessage());
-        }
+      randomImage();
     }
 
     
@@ -62,7 +56,7 @@ public class PuzzleButton extends javax.swing.JButton implements java.awt.event.
         }
         this.addActionListener(listener);
         this.setFocusPainted(false);
-        setFocusable(true);
+        setFocusable(false);
         setEnabled(true);
         addMouseListener(this);
     }
@@ -175,5 +169,21 @@ public class PuzzleButton extends javax.swing.JButton implements java.awt.event.
     public void mouseReleased(java.awt.event.MouseEvent e)
     {
         
+    }
+
+    /**
+     * choisit au hasard l'image qui sera representée dans l'interface
+     */
+    public static void randomImage()
+    {
+      try
+        {
+          Random r = new Random();
+          backgroundImage = ImageIO.read(new FileInputStream("livraison/dist/assets/image" + (r.nextInt(NB_IMAGES) + 1) + ".jpg"));
+        }
+        catch(IOException e)
+        {
+          System.out.println(e.getMessage());
+        }
     }
 }

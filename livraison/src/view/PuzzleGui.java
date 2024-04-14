@@ -9,7 +9,7 @@ import puzzle.model.PuzzleModel;
 /**
  * Classe représentant l'interface graphique du jeu de puzzle.
  */
-public class PuzzleGui extends javax.swing.JFrame implements ActionListener
+public class PuzzleGui extends javax.swing.JFrame implements ActionListener, KeyListener
 {
     public final static int LVL_EASY = 0, LVL_MEDIUM = 1, LVL_HARD = 2, LVL_CUSTOM = 3;
 
@@ -20,6 +20,7 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
     private PuzzleView canvas;
     private JCheckBoxMenuItem check1, check2, check3;
     private JLabel coups;
+    private boolean upPressed = false, downPressed = false, rightPressed = false, leftPressed = false; 
 
 
     /**
@@ -39,6 +40,9 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
         add(canvas);
         pack();
         setVisible(true);
+
+        addKeyListener(this);
+        requestFocus();
     }
 
 
@@ -61,6 +65,9 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
         add(canvas);
         pack();
         setVisible(true);
+
+        addKeyListener(this);
+        requestFocus();
     }
 
     /**
@@ -82,6 +89,7 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
           break;
 
         case "Nouvelle partie":
+          PuzzleButton.randomImage();
           canvas.changeModel(newModel());
           break;
         
@@ -120,6 +128,7 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
       if(level != newLevel)
       {
         level = newLevel;
+        PuzzleButton.randomImage();
         canvas.changeModel(newModel());
       }
 
@@ -230,5 +239,87 @@ public class PuzzleGui extends javax.swing.JFrame implements ActionListener
     public void changeCoups(int nombre)
     {
       coups.setText("                                              nombre de coups : " + nombre);
+    }
+
+    @Override
+    /**
+     * {@inheritDoc}
+     */
+    public void keyReleased(KeyEvent k)
+    {
+      switch(k.getKeyCode())
+      {
+        case 37:
+          leftPressed = false;
+          break;
+        
+        case 38:
+          upPressed = false;
+          break;
+        
+        case 39:
+          rightPressed = false;
+          break;
+
+        case 40:
+          downPressed = false;
+          break;
+        
+        default :
+          break;
+      }
+    }
+
+    @Override
+    /**
+     * {@inheritDoc}
+     */
+    public void keyPressed(KeyEvent k)
+    {
+      switch(k.getKeyCode())
+      {
+        case 37:
+          if(!leftPressed)
+          {
+            canvas.getModel().move(PuzzleModel.MOVE_LEFT);
+            leftPressed = true;
+          }
+          break;
+        
+        case 38:
+          if(!upPressed)
+          {
+            canvas.getModel().move(PuzzleModel.MOVE_UP);
+            upPressed = true;
+          }
+          break;
+        
+        case 39:
+          if(!rightPressed)
+          {
+            canvas.getModel().move(PuzzleModel.MOVE_RIGHT);
+            rightPressed = true;
+          }
+          break;
+
+        case 40:
+          if(!downPressed)
+          {
+            canvas.getModel().move(PuzzleModel.MOVE_DOWN);
+            downPressed = true;
+          }
+          break;
+        
+        default :
+          break;
+      }
+    }
+
+    @Override
+    /**
+     * {@inheritDoc}
+     */
+    public void keyTyped(KeyEvent k)
+    {
     }
 }
