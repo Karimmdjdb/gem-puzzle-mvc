@@ -1,4 +1,4 @@
-# Sliding Puzzle (Taquin) – Java (Swing, MVC)
+# Sliding Puzzle (Taquin) – MVC
 
 ![Java](https://img.shields.io/badge/Java-21+-red?style=flat&logo=openjdk&logoColor=white)
 ![Swing](https://img.shields.io/badge/UI-Swing-0f9d58?style=flat)
@@ -10,8 +10,6 @@ Choose the grid size, play with **mouse or keyboard**, and switch between a **nu
 ---
 
 ## Preview
-
-Add a screenshot or animated GIF of the game:
 
 ![Sliding Puzzle Preview](demo.gif)
 
@@ -69,7 +67,8 @@ src
 From the project root:
 
 ```bash
-javac -d bin $(find src -name "*.java") && java -cp bin Demo
+javac -d bin $(find src -name "*.java")
+java -cp bin Demo
 ```
 
 - Compiles sources into `bin/` then runs the main class `Demo`.
